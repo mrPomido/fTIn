@@ -59,7 +59,7 @@ int main(int argc, char** argv){
         FD_ZERO(&reads);
         FD_SET(socket_peer, &reads);
         #if !defined(_WIN32)
-        FD_SET(fileno(stdin), &reads);
+        FD_SET(/* fileno(stdin) */ 0, &reads);
         #endif
         struct timeval timeout;
         timeout.tv_sec = 0;
@@ -70,12 +70,13 @@ int main(int argc, char** argv){
         }
         if(FD_ISSET(socket_peer, &reads)){
             char read[4096];
+            // printf("DEBUGG\n");
             int bytes_recieved = recv(socket_peer, read, 4096, 0);
             if(bytes_recieved < 1){
                 printf("Connection closed by peer.\n");
                 break;
             }
-            printf("Received (%d bytes): %.*s", bytes_recieved, bytes_recieved, read);
+            printf("Received (%d bytes): %.*s\n", bytes_recieved, bytes_recieved, read);
         }
 
         #if defined(_WIN32)
@@ -87,7 +88,7 @@ int main(int argc, char** argv){
             if(!fgets(read, 4096, stdin)) break;
             printf("Sending: %s", read);
             int bytes_sent = send(socket_peer, read, strlen(read), 0);
-            printf("Sent %s bytes.\n", bytes_sent); 
+            printf("Sent %d bytes.\n", bytes_sent); 
         }
     }
 
