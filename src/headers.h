@@ -24,19 +24,11 @@
 
 #if defined(_WIN32)
 #define ISVALIDSOCKET(s) ((s) != INVALID_SOCKET)
-#else
-#define ISVALIDSOCKET(s) ((s) >= 0)
-#endif
-
-#if defined(_WIN32)
 #define CLOSESOCKET(s) closesocket(s)
-#else
-#define CLOSESOCKET(s) close(s)
-#endif
-
-#if defined(_WIN32)
 #define GETSOCKETERRNO() (WSAGetLastError())
 #else
+#define ISVALIDSOCKET(s) ((s) >= 0)
+#define CLOSESOCKET(s) close(s)
 #define GETSOCKETERRNO() (errno)
 #endif
 
