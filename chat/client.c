@@ -64,7 +64,7 @@ int main(int argc, char** argv){
             fprintf(stderr, "select() failed: (%d)\n", GETSOCKETERRNO());
             return 1;
         }
-        if (FD_ISSET(socket_peer, &reads)){
+        if(FD_ISSET(socket_peer, &reads)){
             char read[4096];
             int bytes_received = recv(socket_peer, read, sizeof(read) /*4096*/, 0);
             if(bytes_received < 1){
