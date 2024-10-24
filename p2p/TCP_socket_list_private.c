@@ -3,23 +3,14 @@
 #include "fTin.h"
 #endif
 #include "TCP_socket_private.h"
-
-typedef struct{
-    TCP_socket* head;
-    TCP_socket* tail;
-}TCP_sock_list;
+#include "TCP_socket_list_private.h"
 
 TCP_socket_list* crTCP_socket_list(TCP_socket* TCPs){
     TCP_sock_list* list = (TCP_sock_list*)malloc(sizeof(TCP_sock_list));
     list->head = TCPs;
     list->tail = TCPs;
     return list;
-}
 
-void add_TCP_socket_to_list(TCP_sock_list* sock_list, TCP_socket* TCPs){
-    TCPs->prev = sock_list->tail;
-    TCPs->next = NULL;
-    sock_list->tail = TCPs;
 }
 
 TCP_socket* find_TCP_socket_in_list(TCP_sock_list* list, TCP_socket* TCPs){
@@ -27,6 +18,15 @@ TCP_socket* find_TCP_socket_in_list(TCP_sock_list* list, TCP_socket* TCPs){
         if(slider == TCPs) break;
     }
     return slider;
+}
+
+void add_TCP_socket_to_list(TCP_sock_list* sock_list, TCP_socket* TCPs){
+    if(find_TCP_socket_in_list(sock_list, TCPs) != NULL) printf("Socket already in list");
+    else{
+        TCPs->prev = sock_list->tail;
+        TCPs->next = NULL;
+        sock_list->tail = TCPs;
+    }
 }
 
 TCP_socket* cut_TCP_socket(TCP_sock_list* list, TCP_socket* TCPs){
@@ -54,3 +54,4 @@ void drTCP_socket_list(TCP_sock_list* list){
         drTCP_socket(cut_TCP_socket(list, list->tail));
     }
 }
+
