@@ -48,6 +48,11 @@ void drTCP_socket(TCP_socket* condemned){
     free(condemned);
 }
 
+void singlify_TCP_socket(TCP_socket* dissected){
+    dissected->next = NULL;
+    dissected->prev = NULL;
+}
+
 SOCKET get_socket(TCP_socket* dissected){
     return dissected->socket_desc;
 }
@@ -100,6 +105,7 @@ TCP_socket* get_next_TCPs(TCP_socket* dissected){
 TCP_socket* get_prev_TCPs(TCP_socket* dissected){
     return dissected->prev;
 }
+
 
 TCP_socket* listener_create(char* port){
     printf("Configuring local address...\n");
