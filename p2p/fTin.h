@@ -26,6 +26,8 @@ TCP_socket* get_next_TCPs(TCP_socket* dissected);
 TCP_socket* get_prev_TCPs(TCP_socket* dissected);
 FILE*  get_storage(TCP_socket* dissected);
 FILE*  set_storage(TCP_socket* dissected, char* new_storage_name);
+TCP_socket* get_next_TCPs(TCP_socket* dissected);
+TCP_socket* get_prev_TCPs(TCP_socket* dissected);
 
 TCP_socket* listener_create(char* port);
 int start_listening(TCP_socket* listener);
